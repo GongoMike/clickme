@@ -1,1 +1,231 @@
-# clickme
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For You</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      font-family: "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at top, #b11226, #6a000f);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Floating roses */
+    .rose {
+      position: absolute;
+      top: -40px;
+      font-size: 22px;
+      opacity: 0.6;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    .card {
+      background: #ffffff;
+      width: 92%;
+      max-width: 380px;
+      border-radius: 26px;
+      padding: 32px 22px;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+      text-align: center;
+      animation: rise 0.9s ease;
+      z-index: 10;
+    }
+
+    h1 {
+      font-size: 26px;
+      color: #b11226;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #b11226;
+      margin-bottom: 18px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 22px;
+      color: #333;
+    }
+
+    button {
+      padding: 12px 26px;
+      border-radius: 30px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #b11226;
+      color: white;
+    }
+
+    .secondary {
+      background: #e0e0e0;
+      position: absolute;
+    }
+
+    .buttons {
+      position: relative;
+      height: 60px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card" id="card">
+
+    <!-- STEP 1 -->
+    <div id="step1">
+      <h1>Hey Teddy Bear</h1>
+      <p>
+        I have something for you Teddy Bear.
+        <br><br>
+        It exists because there is something about you
+        that makes ordinary things like me feel special.
+      </p>
+      <button class="primary" onclick="nextStep(2)">Continue</button>
+      <div class="hint">Tap gently</div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" style="display:none;">
+      <h2>Let me be honest</h2>
+      <p>
+        Somewhere between our conversations,
+        your laughter,
+        and the quiet moments,
+        I realized something.
+      </p>
+      <button class="primary" onclick="nextStep(3)">Go on</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div id="step3" style="display:none;">
+      <h2>I realized that</h2>
+      <p>
+        This isn’t about Valentine’s Day. 
+        It’s about us.
+      </p>
+
+      <h2>Will you be my Valentine?</h2>
+
+      <div class="buttons">
+        <button class="primary" onclick="yesAnswer()">Yes</button>
+        <button class="secondary" id="noBtn" onmouseover="moveNo()">No</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div id="step4" style="display:none;">
+      <h1>You better say yes :)</h1>
+      <p>
+        That decision means more than you know.
+        <br><br>
+        Before we continue,
+        there is something I wrote for you.
+      </p>
+      <button class="primary" onclick="nextStep(5)">Read it</button>
+    </div>
+
+    <!-- STEP 5 -->
+    <div id="step5" style="display:none;">
+      <h1>A Letter, Just for You My Teddy Bear</h1>
+      <p>
+        Loving you feels steady.
+        It feels calm.
+        It feels real.
+        <br><br>
+        I admire how you move through life,
+        how you care without being asked,
+        how you open to me, 
+        and how you open up to me that's cute
+        <br><br>
+        I choose you with intention, 
+        even in my second life I choose you.
+        With patience.
+        With a full heart.
+        My Teddy Bear, My Private Nurse, My wife
+      </p>
+      <p>
+        Yours,<br>
+        Always
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    function nextStep(step) {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById("step" + i);
+        if (el) el.style.display = "none";
+      }
+      document.getElementById("step" + step).style.display = "block";
+
+      const noBtn = document.getElementById("noBtn");
+      if (noBtn) {
+        noBtn.onmouseover = moveNo;
+        noBtn.ontouchstart = moveNo;
+      }
+    }
+
+    function moveNo() {
+      const noBtn = document.getElementById("noBtn");
+      const x = Math.random() * 180 - 90;
+      const y = Math.random() * 40 - 20;
+      noBtn.style.transform = `translate(${x}px, ${y}px)`;
+    }
+
+    function yesAnswer() {
+      nextStep(4);
+    }
+
+    // Generate falling roses
+    const rosesContainer = document.getElementById("roses");
+    for (let i = 0; i < 18; i++) {
+      const rose = document.createElement("div");
+      rose.className = "rose";
+      rose.innerText = "🌹";
+      rose.style.left = Math.random() * 100 + "vw";
+      rose.style.animationDuration = (Math.random() * 6 + 6) + "s";
+      rose.style.fontSize = (Math.random() * 12 + 16) + "px";
+      rosesContainer.appendChild(rose);
+    }
+  </script>
+
+</body>
+</html>
+
